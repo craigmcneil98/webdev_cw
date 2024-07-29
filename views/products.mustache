@@ -1,0 +1,30 @@
+<head>
+    {{>header}}
+</head>
+<body>
+    <header class="bg-dark text-white text-center py-3">
+        <h1>Products</h1>
+        {{>nav}}
+    </header>
+
+    <main class="container mt-5">
+        {{#products}}
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{name}}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">${{price}}</h6>
+                <p class="card-text">{{description}}</p>
+                <p class="card-text"><small class="text-muted">Added on: {{added}}</small></p>
+                <a href="/product/{{_id}}/edit" class="btn btn-warning">Edit</a>
+                <form action="/product/{{_id}}/delete" method="post" style="display: inline;">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+        {{/products}}
+    </main>
+
+    <footer class="bg-dark text-white text-center py-3 mt-5">
+        {{>footer}}
+    </footer>
+</body>
