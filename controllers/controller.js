@@ -13,10 +13,10 @@ exports.landing_page = function (req, res) {
 // Function to load and populate the products page.
 exports.products_page = async function (req, res) {
     try {
-        // Fetch all products from the DAO
+        // Get all products from the DAO
         const products = await product_db.getAllProducts();
 
-        // Render the products page with the fetched products
+        // Fills the products page with the received products
         res.render("products", {
             title: "Products",
             products: products
@@ -24,5 +24,19 @@ exports.products_page = async function (req, res) {
     } catch (err) {
         console.error("Error fetching products:", err);
         res.status(500).send("Internal Server Error");
+    }
+};
+
+exports.delete_product = async function (req, res) {
+    try {   
+        const productId = req.params.id;
+        const numRemoved = await product_db.deleteProduct(productId);
+        if (numRemoved > 0) {
+            res.redirect("/products");
+        } else {
+            res.status(404).json({ message: 'Product not found' });
+        }
+    } catch (err) {
+        res.status(500).json({ message: 'Error deleting product', error: err.message });
     }
 };

@@ -1,5 +1,17 @@
 <head>
     {{>header}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.delete-form').forEach(function(form) {
+                form.addEventListener('submit', function(event) {
+                    const confirmed = confirm("Are you sure you want to delete this product?");
+                    if (!confirmed) {
+                        event.preventDefault();
+                    }
+                });
+            });
+        });
+    </script>
 </head>
 <body>
     <header class="bg-dark text-white text-center py-3">
@@ -16,7 +28,7 @@
                 <p class="card-text">{{description}}</p>
                 <p class="card-text"><small class="text-muted">Added on: {{added}}</small></p>
                 <a href="/product/{{_id}}/edit" class="btn btn-warning">Edit</a>
-                <form action="/product/{{_id}}/delete" method="post" style="display: inline;">
+                <form action="/products/delete/{{_id}}" method="post" class="delete-form" style="display: inline;">
                     <button type="submit" class="btn btn-danger">Delete</button>
                 </form>
             </div>
