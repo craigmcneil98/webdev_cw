@@ -5,21 +5,21 @@ class ProductDAO {
     this.db = dbFilePath ? new nedb({ filename: dbFilePath.filename, autoload: true }) : new nedb();
   }
 
-  // Function to initialize the database with some sample data
   async init() {
     try {
-      // Sample data for initialization with the "location" field
-      await this.insert({ name: "Sample Product", price: 10.00, description: "This is a sample product.", location: "Glasgow" });
-      console.log("Sample product inserted");
-
-      await this.insert({ name: "Blue Jeans", price: 50.00, description: "This is a pair of blue jeans.", location: "Edinburgh" });
-      console.log("Sample product inserted");
+      await this.insert({ name: "Vintage Vinyl Records", price: 15.00, description: "A collection of classic vinyl records from the 70s and 80s.", location: "Glasgow" });
+      console.log("Sample product inserted for Glasgow");
+      await this.insert({ name: "Woolen Sweater", price: 25.00, description: "A cozy woolen sweater, perfect for chilly days.", location: "Edinburgh" });
+      console.log("Sample product inserted for Edinburgh");
+      await this.insert({ name: "Antique Wooden Chair", price: 40.00, description: "A beautifully crafted wooden chair with an antique finish.", location: "Falkirk" });
+      console.log("Sample product inserted for Falkirk");
+      await this.insert({ name: "Collector’s Edition Books", price: 60.00, description: "A set of rare collector's edition books, great for any literary enthusiast.", location: "Dundee" });
+      console.log("Sample product inserted for Dundee");
     } catch (err) {
       console.error("Error inserting sample products", err);
     }
   }
 
-  // Helper method to wrap database operations in Promises
   async insert(product) {
     return new Promise((resolve, reject) => {
       this.db.insert(product, (err, doc) => {

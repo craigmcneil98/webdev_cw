@@ -1,6 +1,11 @@
 <html>
 <head>
     {{>header}}
+    <style>
+        .mt-4 { margin-top: 1.5rem; }
+        .mb-4 { margin-bottom: 1.5rem; }
+        .list-item-spacing li { margin-bottom: 1rem; }
+    </style>
 </head>
 <body>
     <header class="bg-dark text-white text-center py-3">
@@ -10,14 +15,22 @@
 
     <section class="container mt-5">
         <h2>Welcome to Our Charity Shops</h2>
-        <p>
+        <p class="mb-4">
             Our hospice charity operates four shops, each offering a unique selection of items generously donated by our community. 
             While we do not sell these items online, we aim to provide a glimpse of what you might find in-store. Our dedicated volunteers 
             update the listings regularly to showcase the unique items available. All proceeds support our hospice services and community programs.
         </p>
-        <p>
+        <p class="mb-4">
             Thank you for supporting our mission. We invite you to visit our shops and discover the wonderful items we have in store.
         </p>
+
+        <h3 class="mt-4">Discover Our Locations:</h3>
+        <ul class="list-item-spacing mb-4">
+            <li><strong>Glasgow Shop:</strong> Located in the vibrant heart of Glasgow, our shop features a charming array of vintage records, classic books, and cozy home goods. Explore our ever-changing selection and uncover hidden treasures.</li>
+            <li><strong>Edinburgh Shop:</strong> Situated in the historic and lively city of Edinburgh, our store offers a delightful mix of stylish clothing, elegant accessories, and unique collectibles. Browse through our curated items and support a meaningful cause.</li>
+            <li><strong>Falkirk Shop:</strong> Nestled in the historic town of Falkirk, our shop showcases antique furniture, retro decor, and handcrafted treasures. Each visit reveals new finds that can add character and charm to your home.</li>
+            <li><strong>Dundee Shop:</strong> Located in the bustling city of Dundee, our store is known for its collector’s edition books, vintage fashion, and eclectic household items. Come and explore our diverse offerings and make a positive impact in your community.</li>
+        </ul>
     </section>
 
     <footer class="bg-dark text-white text-center py-3 mt-5">
