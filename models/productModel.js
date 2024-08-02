@@ -3,7 +3,7 @@ const nedb = require("nedb");
 class ProductDAO {
   constructor(dbFilePath) {
     if (dbFilePath) {
-      this.db = new nedb({ filename: dbFilePath, autoload: true });
+      this.db = new nedb({ filename: dbFilePath?.filename, autoload: true });
     } else {
       this.db = new nedb();
     }

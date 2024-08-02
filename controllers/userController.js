@@ -17,12 +17,7 @@ exports.login = async function (req, res) {
             console.log('User not found:', username);
             return res.status(401).send("User not found");
         }
-
-        // Logging for debugging
-        console.log('Password entered:', password);
-        console.log("Input hash: " + await(bcrypt.hash(password, 10)));
-        console.log('Stored password hash:', user.password);
-
+        
         // Compare password
         const isMatch = await bcrypt.compare(password, user.password);
         console.log('Password match result:', isMatch);

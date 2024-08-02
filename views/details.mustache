@@ -1,0 +1,42 @@
+<html>
+<head>
+    {{>header}}
+</head>
+<body>
+    <header class="bg-dark text-white text-center py-3">
+        <h1>Edit Product Details</h1>
+        {{>nav}}
+    </header>
+
+    <main class="container mt-5">
+        <div class="card">
+            <div class="card-body">
+                <form action="/products/update/{{product._id}}" method="post">
+                    <div class="mb-3">
+                        <label for="productName" class="form-label">Product Name</label>
+                        <input type="text" id="productName" name="name" class="form-control" value="{{product.name}}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="productPrice" class="form-label">Price (£)</label>
+                        <input type="number" id="productPrice" name="price" class="form-control" value="{{product.price}}" step="0.01" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="productDescription" class="form-label">Description</label>
+                        <textarea id="productDescription" name="description" class="form-control" rows="3" required>{{product.description}}</textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="productLocation" class="form-label">Location</label>
+                        <input type="text" id="productLocation" name="location" class="form-control" value="{{product.location}}" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update Product</button>
+                    <a href="/products/delete/{{product._id}}" class="btn btn-danger">Delete Product</a>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-dark text-white text-center py-3 mt-5">
+        {{>footer}}
+    </footer>
+</body>
+</html>
