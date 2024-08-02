@@ -38,7 +38,7 @@ exports.admin_page = async function (req, res) {
 // Render the products page with location-based filtering
 exports.products_page = async function (req, res) {
     try {
-        const currentUser = req.user;  // Assume req.user contains the current user data
+        const currentUser = req.user;
 
         let products;
 
@@ -58,7 +58,7 @@ exports.products_page = async function (req, res) {
     }
 };
 
-// Render and populate the products page
+// Render and populate the product details page
 exports.details_page = async function (req, res) {
     try {
         const user = req.user;
@@ -80,7 +80,7 @@ exports.details_page = async function (req, res) {
     }
 };
 
-// Render the add procuct page
+// Render the add product page
 exports.add_product_page = async function (req, res) {
     try {
         const user = req.user;  
@@ -89,7 +89,7 @@ exports.add_product_page = async function (req, res) {
             currentUser: user
         });
     } catch (err) {
-        console.error("Error fetching users:", err);
+        console.error("Error rendering add product page:", err);
         res.status(500).send("Internal Server Error");
     }
 };
@@ -98,7 +98,7 @@ exports.add_product_page = async function (req, res) {
 exports.add_product = async function (req, res) {
     try {
         const { name, price, description } = req.body;
-        const location = req.body.location || req.user.location;  // Use user's location if not provided
+        const location = req.body.location || req.user.location;
 
         const newProduct = {
             name,
@@ -107,7 +107,6 @@ exports.add_product = async function (req, res) {
             location
         };
 
-        // Insert the new product into the database
         const addedProduct = await product_db.addProduct(newProduct);
 
         if (!addedProduct) {
@@ -156,6 +155,7 @@ exports.delete_product = async function (req, res) {
             res.status(404).json({ message: 'Product not found' });
         }
     } catch (err) {
+        console.error("Error deleting product:", err);
         res.status(500).json({ message: 'Error deleting product', error: err.message });
     }
 };

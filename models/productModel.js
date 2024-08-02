@@ -2,120 +2,121 @@ const nedb = require("nedb");
 
 class ProductDAO {
   constructor(dbFilePath) {
-    if (dbFilePath) {
-      this.db = new nedb({ filename: dbFilePath?.filename, autoload: true });
-    } else {
-      this.db = new nedb();
-    }
+    this.db = dbFilePath ? new nedb({ filename: dbFilePath.filename, autoload: true }) : new nedb();
   }
 
   // Function to initialize the database with some sample data
-  init() {
-    // Sample data for initialization with the "location" field
-    this.db.insert({ name: "Sample Product", price: 10.00, description: "This is a sample product.", location: "Glasgow" }, function (err, doc) {
-      if (err) {
-        console.log("Error inserting sample product", err);
-      } else {
-        console.log("Sample product inserted", doc);
-      }
-    });
-
-    this.db.insert({ name: "Blue Jeans", price: 50.00, description: "This is a pair of blue jeans.", location: "Edinburgh" }, function (err, doc) {
-      if (err) {
-        console.log("Error inserting sample product", err);
-      } else {
-        console.log("Sample product inserted", doc);
-      }
-    });
-  }
-
-  // Function to get all products
-  getAllProducts() {
-    return new Promise((resolve, reject) => {
-      this.db.find({}, function (err, products) {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(products);
-          console.log("getAllProducts() returns:", products);
-        }
-      });
-    });
-  }
-
-  // Function to find a product by ID
-  getProductById(productId) {
-    return new Promise((resolve, reject) => {
-      this.db.findOne({ _id: productId }, function (err, product) {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(product);
-          console.log("getProductById() returns:", product);
-        }
-      });
-    });
-  }
-
-  // Fetch products based on location
-  getProductsByLocation(location) {
-    return new Promise((resolve, reject) => {
-      this.db.find({ location: location }, (err, docs) => {
-        if (err) reject(err);
-        else resolve(docs);
-      });
-    });
-  }
-
-  // Function to add a new product using async/await
-  async addProduct(product) {
+  async init() {
     try {
-        // Use a Promise to wrap the insert operation
-        const result = await new Promise((resolve, reject) => {
-            this.db.insert(product, (err, doc) => {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve(doc);
-                }
-            });
-        });
+      // Sample data for initialization with the "location" field
+      await this.insert({ name: "Sample Product", price: 10.00, description: "This is a sample product.", location: "Glasgow" });
+      console.log("Sample product inserted");
 
-        console.log("Product inserted into the database", result);
-        return result;
+      await this.insert({ name: "Blue Jeans", price: 50.00, description: "This is a pair of blue jeans.", location: "Edinburgh" });
+      console.log("Sample product inserted");
     } catch (err) {
-        console.error("Error inserting product", err);
-        throw err;  // Re-throw the error to be handled by the caller
+      console.error("Error inserting sample products", err);
     }
   }
 
-
-  // Function to update a product
-  updateProduct(productId, updatedProduct) {
+  // Helper method to wrap database operations in Promises
+  async insert(product) {
     return new Promise((resolve, reject) => {
-      this.db.update({ _id: productId }, { $set: updatedProduct }, { returnUpdatedDocs: true }, function (err, numReplaced, updatedProduct) {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(updatedProduct);
-          console.log("updateProduct() returns:", updatedProduct);
-        }
+      this.db.insert(product, (err, doc) => {
+        if (err) reject(err);
+        else resolve(doc);
       });
     });
   }
 
-  // Function to delete a product
-  deleteProduct(productId) {
-    return new Promise((resolve, reject) => {
-      this.db.remove({ _id: productId }, {}, function (err, numRemoved) {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(numRemoved);
-          console.log("deleteProduct() returns:", numRemoved);
-        }
+  async getAllProducts() {
+    try {
+      const products = await new Promise((resolve, reject) => {
+        this.db.find({}, (err, docs) => {
+          if (err) reject(err);
+          else resolve(docs);
+        });
       });
-    });
+      console.log("getAllProducts() returns:", products);
+      return products;
+    } catch (err) {
+      console.error("Error getting all products", err);
+      throw err;
+    }
+  }
+
+  async getProductById(productId) {
+    try {
+      const product = await new Promise((resolve, reject) => {
+        this.db.findOne({ _id: productId }, (err, doc) => {
+          if (err) reject(err);
+          else resolve(doc);
+        });
+      });
+      console.log("getProductById() returns:", product);
+      return product;
+    } catch (err) {
+      console.error("Error getting product by ID", err);
+      throw err;
+    }
+  }
+
+  async getProductsByLocation(location) {
+    try {
+      const products = await new Promise((resolve, reject) => {
+        this.db.find({ location }, (err, docs) => {
+          if (err) reject(err);
+          else resolve(docs);
+        });
+      });
+      return products;
+    } catch (err) {
+      console.error("Error getting products by location", err);
+      throw err;
+    }
+  }
+
+  async addProduct(product) {
+    try {
+      const result = await this.insert(product);
+      console.log("Product inserted into the database", result);
+      return result;
+    } catch (err) {
+      console.error("Error inserting product", err);
+      throw err;
+    }
+  }
+
+  async updateProduct(productId, updatedProduct) {
+    try {
+      const result = await new Promise((resolve, reject) => {
+        this.db.update({ _id: productId }, { $set: updatedProduct }, { returnUpdatedDocs: true }, (err, numReplaced, doc) => {
+          if (err) reject(err);
+          else resolve(doc);
+        });
+      });
+      console.log("updateProduct() returns:", result);
+      return result;
+    } catch (err) {
+      console.error("Error updating product", err);
+      throw err;
+    }
+  }
+
+  async deleteProduct(productId) {
+    try {
+      const result = await new Promise((resolve, reject) => {
+        this.db.remove({ _id: productId }, {}, (err, numRemoved) => {
+          if (err) reject(err);
+          else resolve(numRemoved);
+        });
+      });
+      console.log("deleteProduct() returns:", result);
+      return result;
+    } catch (err) {
+      console.error("Error deleting product", err);
+      throw err;
+    }
   }
 }
 

@@ -26,13 +26,19 @@ class UserDAO {
   }
 
   // Insert a user
-  insertUser(user) {
-    return new Promise((resolve, reject) => {
-      this.db.insert(user, (err, doc) => {
-        if (err) reject(err);
-        else resolve(doc);
+  async insertUser(user) {
+    try {
+      const result = await new Promise((resolve, reject) => {
+        this.db.insert(user, (err, doc) => {
+          if (err) reject(err);
+          else resolve(doc);
+        });
       });
-    });
+      return result;
+    } catch (err) {
+      console.error("Error inserting user", err);
+      throw err;
+    }
   }
 
   // Create a new user with hashed password and location
@@ -60,13 +66,19 @@ class UserDAO {
   }
 
   // Find a single user
-  findOne(query) {
-    return new Promise((resolve, reject) => {
-      this.db.findOne(query, (err, doc) => {
-        if (err) reject(err);
-        else resolve(doc);
+  async findOne(query) {
+    try {
+      const result = await new Promise((resolve, reject) => {
+        this.db.findOne(query, (err, doc) => {
+          if (err) reject(err);
+          else resolve(doc);
+        });
       });
-    });
+      return result;
+    } catch (err) {
+      console.error("Error finding user", err);
+      throw err;
+    }
   }
 
   // Get all users
@@ -82,26 +94,35 @@ class UserDAO {
   }
 
   // Find users
-  find(query) {
-    return new Promise((resolve, reject) => {
-      this.db.find(query, (err, docs) => {
-        if (err) reject(err);
-        else resolve(docs);
+  async find(query) {
+    try {
+      const result = await new Promise((resolve, reject) => {
+        this.db.find(query, (err, docs) => {
+          if (err) reject(err);
+          else resolve(docs);
+        });
       });
-    });
+      return result;
+    } catch (err) {
+      console.error("Error finding users", err);
+      throw err;
+    }
   }
 
   // Delete a user by ID
-  deleteUserById(userId) {
-    return new Promise((resolve, reject) => {
-      this.db.remove({ _id: userId }, {}, (err, numRemoved) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(numRemoved);
-        }
+  async deleteUserById(userId) {
+    try {
+      const result = await new Promise((resolve, reject) => {
+        this.db.remove({ _id: userId }, {}, (err, numRemoved) => {
+          if (err) reject(err);
+          else resolve(numRemoved);
+        });
       });
-    });
+      return result;
+    } catch (err) {
+      console.error("Error deleting user", err);
+      throw err;
+    }
   }
 }
 

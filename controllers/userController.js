@@ -44,26 +44,32 @@ exports.logout = function (req, res) {
 };
 
 // Function to verify user is logged in
-exports.verify = function (req, res, next) {
+exports.verify = async function (req, res, next) {
     const token = req.cookies.jwt;
     if (!token) {
         return res.status(403).send("No token provided");
     }
 
-    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
-        if (err) {
-            console.error("Token verification failed:", err);
-            return res.status(403).send("Invalid token");
-        }
+    try {
+        const decoded = await new Promise((resolve, reject) => {
+            jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
+                if (err) reject(err);
+                else resolve(decoded);
+            });
+        });
+
         req.user = decoded;
         next();
-    });
+    } catch (err) {
+        console.error("Token verification failed:", err);
+        return res.status(403).send("Invalid token");
+    }
 };
 
 // Function to verify user is logged in as admin
-exports.verifyAdmin = function (req, res, next) {
-    exports.verify(req, res, () => {
-        if (req.user.role === 'admin') {
+exports.verifyAdmin = async function (req, res, next) {
+    await exports.verify(req, res, () => {
+        if (req.user && req.user.role === 'admin') {
             next();
         } else {
             return res.status(403).send("Access denied. Admins only.");
@@ -90,13 +96,14 @@ exports.register = async function (req, res) {
     }
 };
 
+// Function to delete a user
 exports.delete_user = async function (req, res) {
-    const userId = req.params.id; // Assuming the user ID is passed as a URL parameter
+    const userId = req.params.id;
 
     try {
         const numRemoved = await user_db.deleteUserById(userId);
         if (numRemoved > 0) {
-            res.redirect("/admin"); // Redirect to the admin page or users list
+            res.redirect("/admin");
         } else {
             res.status(404).send("User not found");
         }
@@ -106,22 +113,27 @@ exports.delete_user = async function (req, res) {
     }
 };
 
-exports.getUserData = function (req, res, next) {
+// Function to get user data
+exports.getUserData = async function (req, res, next) {
     const token = req.cookies.jwt;
 
     if (token) {
-        jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
-            if (err) {
-                console.error("Token verification failed:", err);
-                req.user = null; // Ensure `req.user` is null if the token is invalid
-                next(); // Proceed to the next middleware or route handler
-            } else {
-                req.user = decoded; // Attach the decoded user data to the request
-                next(); // Proceed to the next middleware or route handler
-            }
-        });
+        try {
+            const decoded = await new Promise((resolve, reject) => {
+                jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
+                    if (err) reject(err);
+                    else resolve(decoded);
+                });
+            });
+
+            req.user = decoded;
+        } catch (err) {
+            console.error("Token verification failed:", err);
+            req.user = null;
+        }
     } else {
-        req.user = null; // No token provided, set `req.user` to null
-        next(); // Proceed to the next middleware or route handler
+        req.user = null;
     }
+
+    next();
 };
