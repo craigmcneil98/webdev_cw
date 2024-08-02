@@ -2,7 +2,9 @@ const nedb = require("nedb");
 
 class ProductDAO {
   constructor(dbFilePath) {
-    this.db = dbFilePath ? new nedb({ filename: dbFilePath.filename, autoload: true }) : new nedb();
+    this.db = dbFilePath 
+      ? new nedb({ filename: dbFilePath.filename, autoload: true }) 
+      : new nedb();
   }
 
   async init() {
@@ -20,6 +22,7 @@ class ProductDAO {
     }
   }
 
+  //Insert a product in to the db
   async insert(product) {
     return new Promise((resolve, reject) => {
       this.db.insert(product, (err, doc) => {
@@ -29,6 +32,7 @@ class ProductDAO {
     });
   }
 
+  //Get all products from the db
   async getAllProducts() {
     try {
       const products = await new Promise((resolve, reject) => {
@@ -45,6 +49,7 @@ class ProductDAO {
     }
   }
 
+  // Get a product by its ID
   async getProductById(productId) {
     try {
       const product = await new Promise((resolve, reject) => {
@@ -61,6 +66,7 @@ class ProductDAO {
     }
   }
 
+  //Get a product by its location (Which store it is in)
   async getProductsByLocation(location) {
     try {
       const products = await new Promise((resolve, reject) => {
@@ -76,6 +82,7 @@ class ProductDAO {
     }
   }
 
+  //Add a product to the db
   async addProduct(product) {
     try {
       const result = await this.insert(product);
@@ -87,6 +94,7 @@ class ProductDAO {
     }
   }
 
+  //Update an existing product using its ID and a new product object
   async updateProduct(productId, updatedProduct) {
     try {
       const result = await new Promise((resolve, reject) => {
@@ -103,6 +111,7 @@ class ProductDAO {
     }
   }
 
+  //Delete an existing product in the db
   async deleteProduct(productId) {
     try {
       const result = await new Promise((resolve, reject) => {

@@ -1,6 +1,11 @@
 <html>
 <head>
     {{>header}}
+    <style>
+        .error-message {
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
     <header class="bg-dark text-white text-center py-3">
@@ -10,6 +15,13 @@
 
     <section class="container mt-5">
         <h2>Login</h2>
+
+        {{#error}}
+            <div class="alert alert-danger error-message" role="alert">
+                {{error}}
+            </div>
+        {{/error}}
+
         <form action="/login" method="post" class="mt-4">
             <div class="form-group">
                 <label for="username">Username:</label>

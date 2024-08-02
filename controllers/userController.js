@@ -15,7 +15,7 @@ exports.login = async function (req, res) {
         const user = await user_db.lookup(username);
         if (!user) {
             console.log("User not found:", username);
-            return res.status(401).send("User not found");
+            return res.render("user/login", { error: "User not found" });
         }
         
         const isMatch = await bcrypt.compare(password, user.password);
@@ -26,16 +26,17 @@ exports.login = async function (req, res) {
             const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "5m" });
 
             res.cookie("jwt", accessToken, { httpOnly: true, secure: process.env.NODE_ENV === "production" });
-            return res.redirect("/");
+            return res.redirect("products");
         } else {
             console.log("Invalid password attempt for user:", username);
-            return res.status(403).send("Invalid password");
+            return res.render("user/login", { error: "Invalid password" });
         }
     } catch (err) {
         console.error("Error during login:", err);
-        return res.status(500).send("Internal Server Error");
+        return res.render("user/login", { error: "Internal Server Error" });
     }
 };
+
 
 // Function to handle user logout
 exports.logout = function (req, res) {

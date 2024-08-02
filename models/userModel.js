@@ -5,7 +5,9 @@ const saltRounds = 10;
 
 class UserDAO {
   constructor(dbFilePath) {
-    this.db = new Datastore({ filename: dbFilePath?.filename, autoload: true });
+    this.db = dbFilePath 
+      ? new Datastore({ filename: dbFilePath.filename, autoload: true })
+      : new Datastore();
   }
 
   // Initialize the database with users
@@ -16,6 +18,7 @@ class UserDAO {
       { user: 'Alice', password: await bcrypt.hash('Alice', saltRounds), role: 'normalUser', location: 'Dundee' },
       { user: 'Bob', password: await bcrypt.hash('Bob', saltRounds), role: 'normalUser', location: 'Falkirk' }
     ];
+
     try {
       for (const user of demoUsers) {
         await this.insertUser(user);
