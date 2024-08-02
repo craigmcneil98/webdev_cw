@@ -8,6 +8,7 @@ body {
     flex-direction: column;
 }
 
-footer{
+footer {
     margin-top: auto;
+    padding: 1em;
 }
