@@ -2,23 +2,20 @@ const bcrypt = require("bcrypt");
 const UserDAO = require("../models/userModel");
 const jwt = require("jsonwebtoken");
 
-// Initialize UserDAO instance
 const user_db = new UserDAO({ filename: "users.db", autoload: true });
 user_db.init();
 
-// Handle user login
+// Function to handle user login
 exports.login = async function (req, res) {
     const { username, password } = req.body;
 
     try {
-        // Lookup user using user_db instance
         const user = await user_db.lookup(username);
         if (!user) {
             console.log('User not found:', username);
             return res.status(401).send("User not found");
         }
         
-        // Compare password
         const isMatch = await bcrypt.compare(password, user.password);
         console.log('Password match result:', isMatch);
 
@@ -38,14 +35,13 @@ exports.login = async function (req, res) {
     }
 };
 
-// Handle user logout
+// Function to handle user logout
 exports.logout = function (req, res) {
-    // Clear the JWT cookie
     res.cookie("jwt", "", { httpOnly: true, secure: process.env.NODE_ENV === 'production', expires: new Date(0) });
     return res.redirect("/");
 };
 
-// Verify user
+// Function to verify user is logged in
 exports.verify = function (req, res, next) {
     const token = req.cookies.jwt;
     if (!token) {
@@ -57,18 +53,14 @@ exports.verify = function (req, res, next) {
             console.error("Token verification failed:", err);
             return res.status(403).send("Invalid token");
         }
-
-        // Attach user information to the request object
         req.user = decoded;
         next();
     });
 };
 
-// Verify if the user is an admin
+// Function to verify user is logged in as admin
 exports.verifyAdmin = function (req, res, next) {
-    // Verify if the user is logged in
     exports.verify(req, res, () => {
-        // Check if the user role is 'admin'
         if (req.user.role === 'admin') {
             next();
         } else {
@@ -77,7 +69,7 @@ exports.verifyAdmin = function (req, res, next) {
     });
 };
 
-// Handle user registration
+// Function to handle account registration
 exports.register = async function (req, res) {
     const { username, password, role } = req.body;
 
