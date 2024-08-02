@@ -34,16 +34,9 @@ exports.products_page = async function (req, res) {
 };
 
 exports.edit_product_page = async function (req, res) {
-    try {
-        const product = await product_db.getProductById(req.id);
         res.render("edit_product", {
-            title: "Edit Product",
-            product: product
+            title: "Edit Product"
         });
-    } catch (err) {
-        console.error("Error fetching products:", err);
-        res.status(500).send("Internal Server Error");
-    }
 };
 
 // Function to delete product listings

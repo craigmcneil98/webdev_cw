@@ -17,6 +17,5 @@ router.post('/register', userController.register);
 
 //Product Control
 router.post('/products/delete/:id', userController.verifyAdmin, controller.delete_product);
-router.get('/products/edit/:id', userController.verifyAdmin, controller.edit_product_page)
 
 module.exports = router;
