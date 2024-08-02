@@ -1,18 +1,6 @@
 <html>
 <head>
     {{>header}}
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            document.querySelectorAll('.delete-form').forEach(function(form) {
-                form.addEventListener('submit', function(event) {
-                    const confirmed = confirm("Are you sure you want to delete this product?");
-                    if (!confirmed) {
-                        event.preventDefault();
-                    }
-                });
-            });
-        });
-    </script>
     <style>
         .card {
             margin-bottom: 20px;
