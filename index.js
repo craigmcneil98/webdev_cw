@@ -11,7 +11,8 @@ app.use(express.urlencoded({
   
 const path = require('path');
 const public = path.join(__dirname,'public');
-app.use(express.static(public));
+
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css/')); 
 
