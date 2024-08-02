@@ -23,7 +23,7 @@ exports.login = async function (req, res) {
 
         if (isMatch) {
             const payload = { username: user.user, role: user.role, location: user.location };
-            const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "5m" });
+            const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "60m" });
 
             res.cookie("jwt", accessToken, { httpOnly: true, secure: process.env.NODE_ENV === "production" });
             return res.redirect("products");
