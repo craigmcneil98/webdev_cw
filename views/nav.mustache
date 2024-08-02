@@ -1,4 +1,11 @@
 <nav class="nav justify-content-center">
     <a class="nav-link text-white" href="/">Home</a>
     <a class="nav-link text-white" href="/products">Products</a>
+    {{#user}}
+        <span class="nav-link text-white">Welcome, {{user.username}} ({{user.role}})</span>
+        <a class="nav-link text-white" href="/logout">Logout</a>
+    {{/user}}
+    {{^user}}
+        <a class="nav-link text-white" href="/login">Login</a>
+    {{/user}}
 </nav>

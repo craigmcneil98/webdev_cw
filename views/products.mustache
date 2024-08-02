@@ -1,3 +1,4 @@
+<html>
 <head>
     {{>header}}
     <script>
@@ -12,6 +13,11 @@
             });
         });
     </script>
+    <style>
+        .card {
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
 <body>
     <header class="bg-dark text-white text-center py-3">
@@ -26,8 +32,8 @@
                 <h5 class="card-title">{{name}}</h5>
                 <h6 class="card-subtitle mb-2 text-muted">${{price}}</h6>
                 <p class="card-text">{{description}}</p>
-                <p class="card-text"><small class="text-muted">Added on: {{added}}</small></p>
-                <a href="/product/{{_id}}/edit" class="btn btn-warning">Edit</a>
+                <p class="card-text"><small class="text-muted">Location: {{location}}</small></p>
+                <a href="/products/edit/{{_id}}" class="btn btn-warning">Edit</a>
                 <form action="/products/delete/{{_id}}" method="post" class="delete-form" style="display: inline;">
                     <button type="submit" class="btn btn-danger">Delete</button>
                 </form>
@@ -40,3 +46,4 @@
         {{>footer}}
     </footer>
 </body>
+</html>

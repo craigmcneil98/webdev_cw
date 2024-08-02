@@ -11,8 +11,8 @@ class ProductDAO {
 
   // Function to initialize the database with some sample data
   init() {
-    // Sample data for initialization
-    this.db.insert({ name: "Sample Product", price: 10.00, description: "This is a sample product." }, function (err, doc) {
+    // Sample data for initialization with the "location" field
+    this.db.insert({ name: "Sample Product", price: 10.00, description: "This is a sample product.", location: "Warehouse A" }, function (err, doc) {
       if (err) {
         console.log("Error inserting sample product", err);
       } else {
@@ -20,7 +20,7 @@ class ProductDAO {
       }
     });
 
-    this.db.insert({ name: "Blue Jeans", price: 50.00, description: "This is a pair of blue jeans." }, function (err, doc) {
+    this.db.insert({ name: "Blue Jeans", price: 50.00, description: "This is a pair of blue jeans.", location: "Store B" }, function (err, doc) {
       if (err) {
         console.log("Error inserting sample product", err);
       } else {
@@ -58,12 +58,12 @@ class ProductDAO {
   }
 
   // Function to add a new product
-  addProduct(name, price, description) {
+  addProduct(name, price, description, location) {
     const product = {
       name: name,
       price: price,
       description: description,
-      added: new Date().toISOString().split("T")[0],
+      location: location, // Add the location field
     };
     this.db.insert(product, function (err, doc) {
       if (err) {
