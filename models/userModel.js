@@ -12,9 +12,10 @@ class UserDAO {
   async init() {
     const demoUsers = [
       { user: 'Admin', password: await bcrypt.hash('Admin', saltRounds), role: 'admin', location: 'Glasgow' },
-      { user: 'John', password: await bcrypt.hash('John', saltRounds), role: 'normalUser', location: 'Edinburgh' }
+      { user: 'John', password: await bcrypt.hash('John', saltRounds), role: 'normalUser', location: 'Edinburgh' },
+      { user: 'Alice', password: await bcrypt.hash('Alice', saltRounds), role: 'normalUser', location: 'Dundee' },
+      { user: 'Bob', password: await bcrypt.hash('Bob', saltRounds), role: 'normalUser', location: 'Falkirk' }
     ];
-
     try {
       for (const user of demoUsers) {
         await this.insertUser(user);

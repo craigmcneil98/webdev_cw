@@ -14,21 +14,21 @@ exports.login = async function (req, res) {
     try {
         const user = await user_db.lookup(username);
         if (!user) {
-            console.log('User not found:', username);
+            console.log("User not found:", username);
             return res.status(401).send("User not found");
         }
         
         const isMatch = await bcrypt.compare(password, user.password);
-        console.log('Password match result:', isMatch);
+        console.log("Password match result:", isMatch);
 
         if (isMatch) {
             const payload = { username: user.user, role: user.role, location: user.location };
-            const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '5m' });
+            const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "5m" });
 
-            res.cookie("jwt", accessToken, { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
+            res.cookie("jwt", accessToken, { httpOnly: true, secure: process.env.NODE_ENV === "production" });
             return res.redirect("/");
         } else {
-            console.log('Invalid password attempt for user:', username);
+            console.log("Invalid password attempt for user:", username);
             return res.status(403).send("Invalid password");
         }
     } catch (err) {
@@ -39,7 +39,7 @@ exports.login = async function (req, res) {
 
 // Function to handle user logout
 exports.logout = function (req, res) {
-    res.cookie("jwt", "", { httpOnly: true, secure: process.env.NODE_ENV === 'production', expires: new Date(0) });
+    res.cookie("jwt", "", { httpOnly: true, secure: process.env.NODE_ENV === "production", expires: new Date(0) });
     return res.redirect("/");
 };
 
@@ -47,7 +47,7 @@ exports.logout = function (req, res) {
 exports.verify = async function (req, res, next) {
     const token = req.cookies.jwt;
     if (!token) {
-        return res.status(403).send("No token provided");
+        return res.redirect("/login");
     }
 
     try {
@@ -62,24 +62,24 @@ exports.verify = async function (req, res, next) {
         next();
     } catch (err) {
         console.error("Token verification failed:", err);
-        return res.status(403).send("Invalid token");
+        return res.redirect("access-denied");
     }
 };
 
 // Function to verify user is logged in as admin
 exports.verifyAdmin = async function (req, res, next) {
     await exports.verify(req, res, () => {
-        if (req.user && req.user.role === 'admin') {
+        if (req.user && req.user.role === "admin") {
             next();
         } else {
-            return res.status(403).send("Access denied. Admins only.");
+            return res.redirect("access-denied");
         }
     });
 };
 
 // Function to handle account registration
 exports.register = async function (req, res) {
-    const { username, password, role } = req.body;
+    const { username, password, role, location } = req.body;
 
     try {
         const existingUser = await user_db.lookup(username);
@@ -87,7 +87,7 @@ exports.register = async function (req, res) {
             return res.status(409).send("User already exists");
         }
 
-        await user_db.create(username, password, role || 'normalUser');
+        await user_db.create(username, password, role, location || "normalUser");
 
         return res.redirect("/admin");
     } catch (err) {

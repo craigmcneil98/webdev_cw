@@ -19,6 +19,10 @@ exports.login_page = function (req, res) {
     res.render("user/login");
 };
 
+exports.access_denied = function (req, res) {
+    res.render("accessdenied");
+};
+
 // Render and populate the admin page
 exports.admin_page = async function (req, res) {
     try {

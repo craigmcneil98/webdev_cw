@@ -1,0 +1,32 @@
+<html>
+<head>
+    {{>header}}
+    <style>
+        .alert-message {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header class="bg-dark text-white text-center py-3">
+        <h1>Insufficient Privileges</h1>
+        {{>nav}}
+    </header>
+
+    <main class="container mt-5">
+        <div class="alert-message">
+            <h2>Access Denied</h2>
+            <p>You do not have the necessary privileges to access this page.</p>
+            <p>Please contact the administrator if you believe this is a mistake.</p>
+            <a href="/" class="btn btn-primary">Return to Home</a>
+        </div>
+    </main>
+
+    <footer class="bg-dark text-white text-center py-3 mt-5">
+        {{>footer}}
+    </footer>
+</body>
+</html>
