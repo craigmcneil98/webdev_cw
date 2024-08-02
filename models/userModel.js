@@ -11,8 +11,8 @@ class UserDAO {
   // Initialize the database with users
   async init() {
     const demoUsers = [
-      { user: 'Admin', password: await bcrypt.hash('Admin', saltRounds), role: 'admin' },
-      { user: 'John', password: await bcrypt.hash('John', saltRounds), role: 'normalUser' }
+      { user: 'Admin', password: await bcrypt.hash('Admin', saltRounds), role: 'admin', location: 'Glasgow' },
+      { user: 'John', password: await bcrypt.hash('John', saltRounds), role: 'normalUser', location: 'Edinburgh' }
     ];
 
     try {
@@ -35,17 +35,17 @@ class UserDAO {
     });
   }
 
-  // Create a new user with hashed password
-  async create(username, password, role) {
+  // Create a new user with hashed password and location
+  async create(username, password, role, location) {
     try {
-        const hashedPassword = await bcrypt.hash(password, saltRounds); // Hash the password
-        const newUser = { user: username, password: hashedPassword, role };
-        await this.insertUser(newUser); // Save the user
-        console.log("User created:", newUser);
+      const hashedPassword = await bcrypt.hash(password, saltRounds);
+      const newUser = { user: username, password: hashedPassword, role, location };
+      await this.insertUser(newUser);
+      console.log("User created:", newUser);
     } catch (err) {
-        console.error("Error creating user:", username, err);
+      console.error("Error creating user:", username, err);
     }
-}
+  }
 
   // Lookup user by username
   async lookup(username) {
@@ -87,6 +87,19 @@ class UserDAO {
       this.db.find(query, (err, docs) => {
         if (err) reject(err);
         else resolve(docs);
+      });
+    });
+  }
+
+  // Delete a user by ID
+  deleteUserById(userId) {
+    return new Promise((resolve, reject) => {
+      this.db.remove({ _id: userId }, {}, (err, numRemoved) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(numRemoved);
+        }
       });
     });
   }

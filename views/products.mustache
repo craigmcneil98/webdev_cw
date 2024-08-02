@@ -21,7 +21,11 @@
                 <h6 class="card-subtitle mb-2 text-muted">${{price}}</h6>
                 <p class="card-text">{{description}}</p>
                 <p class="card-text"><small class="text-muted">Location: {{location}}</small></p>
+
+                {{#currentUser}}
                 <a href="/details/{{_id}}" class="btn btn-warning">Edit</a>
+                {{/currentUser}}
+
             </div>
         </div>
         {{/products}}

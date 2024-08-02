@@ -1,13 +1,16 @@
 const productDAO = require('../models/productModel.js');
-const userController = require('./userController');
+const { user_db } = require('./userController');
 
 const product_db = new productDAO({ filename: "products.db", autoload: true });
 product_db.init();
 
 // Render landing page
 exports.landing_page = function (req, res) {
+    const user = req.user;
+    console.log(user);
     res.render("landing", {
-        title: "About Us"
+        title: "About Us",
+        currentUser: user
     });
 };
 
@@ -16,18 +19,40 @@ exports.login_page = function (req, res) {
     res.render("user/login");
 };
 
-// Render registration page
-exports.register_page = function (req, res) {
-    res.render("user/register");
+// Render and populate the admin page
+exports.admin_page = async function (req, res) {
+    try {
+        const user = req.user;  
+        const users = await user_db.getAllUsers();
+        res.render("admin", {
+            title: "Admin Management",
+            users: users,
+            currentUser: user
+        });
+    } catch (err) {
+        console.error("Error fetching users:", err);
+        res.status(500).send("Internal Server Error");
+    }
 };
 
-// Render and populate the products page
+// Render the products page with location-based filtering
 exports.products_page = async function (req, res) {
     try {
-        const products = await product_db.getAllProducts();
+        const currentUser = req.user;  // Assume req.user contains the current user data
+
+        let products;
+
+        if (!currentUser) {
+            // No user is logged in, fetch all products
+            products = await product_db.getAllProducts();
+        } else {
+            // User is logged in, fetch products based on current user's location
+            products = await product_db.getProductsByLocation(currentUser.location);
+        }
+
         res.render("products", {
-            title: "Products",
-            products: products
+            products: products,
+            currentUser
         });
     } catch (err) {
         console.error("Error fetching products:", err);
@@ -38,8 +63,9 @@ exports.products_page = async function (req, res) {
 // Render and populate the products page
 exports.details_page = async function (req, res) {
     try {
+        const user = req.user;
         const productId = req.params.id; 
-        const product = await product_db.getProductById(productId); 
+        const product = await product_db.getProductById(productId);
 
         if (!product) {
             return res.status(404).send("Product not found");
@@ -47,7 +73,8 @@ exports.details_page = async function (req, res) {
 
         res.render("details", {
             title: "Product Details",
-            product: product
+            product: product,
+            currentUser: user
         });
     } catch (err) {
         console.error("Error fetching product:", err);

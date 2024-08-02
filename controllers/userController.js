@@ -5,6 +5,8 @@ const jwt = require("jsonwebtoken");
 const user_db = new UserDAO({ filename: "users.db", autoload: true });
 user_db.init();
 
+exports.user_db = user_db;
+
 // Function to handle user login
 exports.login = async function (req, res) {
     const { username, password } = req.body;
@@ -20,7 +22,7 @@ exports.login = async function (req, res) {
         console.log('Password match result:', isMatch);
 
         if (isMatch) {
-            const payload = { username: user.user, role: user.role };
+            const payload = { username: user.user, role: user.role, location: user.location };
             const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '5m' });
 
             res.cookie("jwt", accessToken, { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
@@ -85,5 +87,41 @@ exports.register = async function (req, res) {
     } catch (err) {
         console.error("Error during registration:", err);
         return res.status(500).send("Internal Server Error");
+    }
+};
+
+exports.delete_user = async function (req, res) {
+    const userId = req.params.id; // Assuming the user ID is passed as a URL parameter
+
+    try {
+        const numRemoved = await user_db.deleteUserById(userId);
+        if (numRemoved > 0) {
+            res.redirect("/admin"); // Redirect to the admin page or users list
+        } else {
+            res.status(404).send("User not found");
+        }
+    } catch (err) {
+        console.error("Error deleting user:", err);
+        res.status(500).send("Internal Server Error");
+    }
+};
+
+exports.getUserData = function (req, res, next) {
+    const token = req.cookies.jwt;
+
+    if (token) {
+        jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
+            if (err) {
+                console.error("Token verification failed:", err);
+                req.user = null; // Ensure `req.user` is null if the token is invalid
+                next(); // Proceed to the next middleware or route handler
+            } else {
+                req.user = decoded; // Attach the decoded user data to the request
+                next(); // Proceed to the next middleware or route handler
+            }
+        });
+    } else {
+        req.user = null; // No token provided, set `req.user` to null
+        next(); // Proceed to the next middleware or route handler
     }
 };

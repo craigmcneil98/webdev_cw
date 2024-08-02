@@ -12,7 +12,7 @@ class ProductDAO {
   // Function to initialize the database with some sample data
   init() {
     // Sample data for initialization with the "location" field
-    this.db.insert({ name: "Sample Product", price: 10.00, description: "This is a sample product.", location: "Warehouse A" }, function (err, doc) {
+    this.db.insert({ name: "Sample Product", price: 10.00, description: "This is a sample product.", location: "Glasgow" }, function (err, doc) {
       if (err) {
         console.log("Error inserting sample product", err);
       } else {
@@ -20,7 +20,7 @@ class ProductDAO {
       }
     });
 
-    this.db.insert({ name: "Blue Jeans", price: 50.00, description: "This is a pair of blue jeans.", location: "Store B" }, function (err, doc) {
+    this.db.insert({ name: "Blue Jeans", price: 50.00, description: "This is a pair of blue jeans.", location: "Edinburgh" }, function (err, doc) {
       if (err) {
         console.log("Error inserting sample product", err);
       } else {
@@ -53,6 +53,16 @@ class ProductDAO {
           resolve(product);
           console.log("getProductById() returns:", product);
         }
+      });
+    });
+  }
+
+  // Fetch products based on location
+  getProductsByLocation(location) {
+    return new Promise((resolve, reject) => {
+      this.db.find({ location: location }, (err, docs) => {
+        if (err) reject(err);
+        else resolve(docs);
       });
     });
   }
