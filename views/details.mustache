@@ -1,6 +1,14 @@
 <html>
 <head>
     {{>header}}
+    <style>
+        .readonly-input {
+            background-color: #e9ecef; /* Light grey background */
+            cursor: not-allowed; /* Change cursor to indicate it's not editable */
+            pointer-events: none; /* Disable all mouse events */
+            user-select: none; /* Prevent text selection */
+        }
+    </style>
 </head>
 <body>
     <header class="bg-dark text-white text-center py-3">
@@ -26,7 +34,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="productLocation" class="form-label">Location</label>
-                        <input type="text" id="productLocation" name="location" class="form-control" value="{{product.location}}" required>
+                        <input type="text" id="productLocation" name="location" class="form-control readonly-input" value="{{product.location}}" readonly>
                     </div>
                     <button type="submit" class="btn btn-primary">Update Product</button>
                     <a href="/products/delete/{{product._id}}" class="btn btn-danger">Delete Product</a>

@@ -1,10 +1,10 @@
 <nav class="nav justify-content-center">
-    <a class="nav-link text-white" href="/">Home</a>
-    <a class="nav-link text-white" href="/products">Products</a>
+    <a class="btn btn-link text-light" href="/">Home</a>
+    <a class="btn btn-link text-light" href="/products">Products</a>
     {{#currentUser}}
-        <a class="nav-link text-white" href="/logout">Logout</a>
+        <a class="btn btn-link text-light" href="/logout">Logout</a>
     {{/currentUser}}
     {{^currentUser}}
-        <a class="nav-link text-white" href="/login">Login</a>
+        <a class="btn btn-link text-light" href="/login">Login</a>
     {{/currentUser}}
 </nav>

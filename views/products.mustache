@@ -1,11 +1,6 @@
 <html>
 <head>
     {{>header}}
-    <style>
-        .card {
-            margin-bottom: 20px;
-        }
-    </style>
 </head>
 <body>
     <header class="bg-dark text-white text-center py-3">
@@ -14,8 +9,18 @@
     </header>
 
     <main class="container mt-5">
+        {{#currentUser}}
+        <div class="card mb-4">
+            <div class="card-body text-center">
+                <h5 class="card-title">Add New Product</h5>
+                <p class="card-text">Click the button below to add a new product to the inventory.</p>
+                <a href="/products/add" class="btn btn-primary">Add Product</a>
+            </div>
+        </div>
+        {{/currentUser}}
+
         {{#products}}
-        <div class="card">
+        <div class="card mb-4">
             <div class="card-body">
                 <h5 class="card-title">{{name}}</h5>
                 <h6 class="card-subtitle mb-2 text-muted">${{price}}</h6>

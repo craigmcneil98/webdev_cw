@@ -9,6 +9,7 @@ router.get("/login", controller.login_page);
 router.get("/products", userController.getUserData, controller.products_page);
 router.get("/admin", userController.verifyAdmin, controller.admin_page);
 router.get("/details/:id", userController.verify, controller.details_page);
+router.get("/products/add", userController.verify, controller.add_product_page)
 
 //Authentication
 router.post('/login', userController.login);
@@ -19,6 +20,7 @@ router.post('/admin/create-user', userController.verifyAdmin, userController.reg
 router.get('/admin/delete-user/:id', userController.verifyAdmin, userController.delete_user);
 
 //Product Control
+router.post("/products/add/submit", userController.verify, controller.add_product)
 router.get('/products/delete/:id', userController.verify, controller.delete_product);
 router.post('/products/update/:id', userController.verify, controller.update_product);
 

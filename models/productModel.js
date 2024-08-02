@@ -67,22 +67,28 @@ class ProductDAO {
     });
   }
 
-  // Function to add a new product
-  addProduct(name, price, description, location) {
-    const product = {
-      name: name,
-      price: price,
-      description: description,
-      location: location, // Add the location field
-    };
-    this.db.insert(product, function (err, doc) {
-      if (err) {
-        console.log("Error inserting product", err);
-      } else {
-        console.log("Product inserted into the database", doc);
-      }
-    });
+  // Function to add a new product using async/await
+  async addProduct(product) {
+    try {
+        // Use a Promise to wrap the insert operation
+        const result = await new Promise((resolve, reject) => {
+            this.db.insert(product, (err, doc) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(doc);
+                }
+            });
+        });
+
+        console.log("Product inserted into the database", result);
+        return result;
+    } catch (err) {
+        console.error("Error inserting product", err);
+        throw err;  // Re-throw the error to be handled by the caller
+    }
   }
+
 
   // Function to update a product
   updateProduct(productId, updatedProduct) {

@@ -43,10 +43,8 @@ exports.products_page = async function (req, res) {
         let products;
 
         if (!currentUser) {
-            // No user is logged in, fetch all products
             products = await product_db.getAllProducts();
         } else {
-            // User is logged in, fetch products based on current user's location
             products = await product_db.getProductsByLocation(currentUser.location);
         }
 
@@ -78,6 +76,47 @@ exports.details_page = async function (req, res) {
         });
     } catch (err) {
         console.error("Error fetching product:", err);
+        res.status(500).send("Internal Server Error");
+    }
+};
+
+// Render the add procuct page
+exports.add_product_page = async function (req, res) {
+    try {
+        const user = req.user;  
+        res.render("addproduct", {
+            title: "Add Product",
+            currentUser: user
+        });
+    } catch (err) {
+        console.error("Error fetching users:", err);
+        res.status(500).send("Internal Server Error");
+    }
+};
+
+// Function to add a new product
+exports.add_product = async function (req, res) {
+    try {
+        const { name, price, description } = req.body;
+        const location = req.body.location || req.user.location;  // Use user's location if not provided
+
+        const newProduct = {
+            name,
+            price,
+            description,
+            location
+        };
+
+        // Insert the new product into the database
+        const addedProduct = await product_db.addProduct(newProduct);
+
+        if (!addedProduct) {
+            return res.status(400).send("Failed to add the product");
+        }
+
+        res.redirect('/products');
+    } catch (err) {
+        console.error("Error adding product:", err);
         res.status(500).send("Internal Server Error");
     }
 };

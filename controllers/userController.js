@@ -83,7 +83,7 @@ exports.register = async function (req, res) {
 
         await user_db.create(username, password, role || 'normalUser');
 
-        return res.redirect("/login");
+        return res.redirect("/admin");
     } catch (err) {
         console.error("Error during registration:", err);
         return res.status(500).send("Internal Server Error");
