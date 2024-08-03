@@ -20,7 +20,11 @@ exports.login_page = function (req, res) {
 };
 
 exports.access_denied = function (req, res) {
-    res.render("accessdenied");
+    const user = req.user;
+    res.render("accessdenied", {
+        title: "Access Denied",
+        currentUser: user
+    });
 };
 
 // Render and populate the admin page
