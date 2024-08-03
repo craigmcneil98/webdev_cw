@@ -10,9 +10,9 @@ body {
 
 main {
     height: 100%;
+    margin-bottom: 3rem;
 }
 
 footer {
-    margin-top: 20px;
     padding: 1em;
 }
