@@ -67,10 +67,10 @@ exports.verify = async function (req, res, next) {
     }
 };
 
-// Function to verify user is logged in as admin
+// Function to verify user is logged in as a manager/admin
 exports.verifyAdmin = async function (req, res, next) {
     await exports.verify(req, res, () => {
-        if (req.user && req.user.role === "admin") {
+        if (req.user && req.user.role === "Manager") {
             next();
         } else {
             return res.redirect("access-denied");

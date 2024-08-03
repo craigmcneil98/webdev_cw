@@ -13,10 +13,10 @@ class UserDAO {
   // Initialize the database with users
   async init() {
     const demoUsers = [
-      { user: 'Admin', password: await bcrypt.hash('Admin', saltRounds), role: 'admin', location: 'Glasgow' },
-      { user: 'John', password: await bcrypt.hash('John', saltRounds), role: 'normalUser', location: 'Edinburgh' },
-      { user: 'Alice', password: await bcrypt.hash('Alice', saltRounds), role: 'normalUser', location: 'Dundee' },
-      { user: 'Bob', password: await bcrypt.hash('Bob', saltRounds), role: 'normalUser', location: 'Falkirk' }
+      { user: 'Manager', password: await bcrypt.hash('Manager', saltRounds), role: 'Manager', location: 'Glasgow' },
+      { user: 'John', password: await bcrypt.hash('John', saltRounds), role: 'Volunteer', location: 'Edinburgh' },
+      { user: 'Alice', password: await bcrypt.hash('Alice', saltRounds), role: 'Volunteer', location: 'Dundee' },
+      { user: 'Bob', password: await bcrypt.hash('Bob', saltRounds), role: 'Volunteer', location: 'Falkirk' }
     ];
 
     try {
