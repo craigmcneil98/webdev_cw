@@ -2,13 +2,17 @@
 <head>
     {{>header}}
     <style>
-        .error-message {
-            margin-top: 20px;
-        }
-        .card {
+        .container-wrapper {
             width: 40%;
             max-width: 500px;
             margin: 0 auto;
+            padding: 0 20px;
+        }
+        .error-message {
+            margin-top: 20px;
+            padding: 10px;
+        }
+        .card {
             padding: 20px;
         }
         .form-group {
@@ -31,25 +35,27 @@
     <main class="container mt-5">
         <h2 class="text-center mb-4">Login</h2>
 
-        {{#error}}
-            <div class="alert alert-danger error-message" role="alert">
-                {{error}}
-            </div>
-        {{/error}}
+        <div class="container-wrapper">
+            {{#error}}
+                <div class="alert alert-danger error-message" role="alert">
+                    {{error}}
+                </div>
+            {{/error}}
 
-        <div class="card">
-            <div class="card-body">
-                <form action="/login" method="post">
-                    <div class="form-group">
-                        <label for="username">Username:</label>
-                        <input type="text" id="username" name="username" class="form-control" required>
-                    </div>
-                    <div class="form-group mt-3">
-                        <label for="password">Password:</label>
-                        <input type="password" id="password" name="password" class="form-control" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary mt-3">Login</button>
-                </form>
+            <div class="card">
+                <div class="card-body">
+                    <form action="/login" method="post">
+                        <div class="form-group">
+                            <label for="username">Username:</label>
+                            <input type="text" id="username" name="username" class="form-control" required>
+                        </div>
+                        <div class="form-group mt-3">
+                            <label for="password">Password:</label>
+                            <input type="password" id="password" name="password" class="form-control" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-3">Login</button>
+                    </form>
+                </div>
             </div>
         </div>
     </main>

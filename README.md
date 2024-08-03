@@ -10,7 +10,7 @@ This project provides an application to be used by a local hospice charity with 
 - User Authentication
 - User Management Interface
 
-### Getting Started
+## Getting Started
 
 1. **Clone the repository**
 
