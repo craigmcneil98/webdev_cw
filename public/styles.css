@@ -6,13 +6,20 @@ html, body {
 body {
     display: flex;
     flex-direction: column;
+    min-height: 100vh; /* Ensure the body takes up at least the full viewport height */
+}
+
+header {
+    padding: 1em;
+    flex-shrink: 0; /* Prevent header from shrinking */
 }
 
 main {
     flex: 1;
-    margin-bottom: 3rem;
+    padding-bottom: 3rem; /* Space for the footer */
 }
 
 footer {
     padding: 1em;
+    flex-shrink: 0; /* Prevent footer from shrinking */
 }
