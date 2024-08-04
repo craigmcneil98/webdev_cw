@@ -16,7 +16,7 @@ header, footer {
 
 main {
     flex: 1;
-    padding-bottom: 3rem; /* Optional: For additional spacing */
+    padding-bottom: 3rem;
 }
 
 h2 {
