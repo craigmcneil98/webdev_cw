@@ -1,66 +1,71 @@
-<html>
-<head>
-    {{>header}}
-    <style>
-        .container-wrapper {
-            width: 80%;
-            max-width: 500px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        .error-message {
-            margin-top: 20px;
-            padding: 10px;
-        }
-        .card {
-            min-width: 50%;
-            padding: 20px;
-        }
-        .form-group {
-            margin-bottom: 1rem;
-        }
-        .btn-primary {
-            margin-top: 1.5rem;
-        }
-        .mt-3 {
-            width: 100%;
-        }
-    </style>
-</head>
-<body>
-    <header class="bg-dark text-white text-center py-3">
-        <h1>Hospice Charity Shops</h1>
-        {{>nav}}
-    </header>
+    <html>
+    <head>
+        {{>header}}
+        <style>
+            .container-wrapper {
+                width: 80%;
+                max-width: 500px;
+                margin: 0 auto;
+                padding: 0 20px;
+            }
+            .error-message {
+                margin-top: 20px;
+                padding: 10px;
+            }
+            .card {
+                min-width: 50%;
+                padding: 20px;
+            }
+            .form-group {
+                margin-bottom: 1rem;
+            }
+            .form-group label {
+                display: block;
+                font-weight: 600;
+                margin-bottom: 0.5rem;
+            }
+            .btn-primary {
+                margin-top: 1.5rem;
+            }
+            .mt-3 {
+                width: 100%;
+            }
+        </style>
+    </head>
+    <body>
+        <header class="bg-dark text-white text-center py-3">
+            <h1>Hospice Charity Shops</h1>
+            {{>nav}}
+        </header>
 
-    <main class="container mt-5">
-        <h2 class="text-center mb-4">Login</h2>
+        <main class="container mt-5">
+            <h2 class="text-center mb-4">Login</h2>
 
-        <div class="container-wrapper">
-            {{#error}}
-                <div class="alert alert-danger error-message" role="alert">
-                    {{error}}
-                </div>
-            {{/error}}
+            <div class="container-wrapper">
+                {{#error}}
+                    <div class="alert alert-danger error-message" role="alert">
+                        {{error}}
+                    </div>
+                {{/error}}
 
-            <div class="card">
-                <div class="card-body">
-                    <form action="/login" method="post">
-                        <div class="form-group">
-                            <label for="username">Username:</label>
-                            <input type="text" id="username" name="username" class="form-control" required>
-                        </div>
-                        <div class="form-group mt-3">
-                            <label for="password">Password:</label>
-                            <input type="password" id="password" name="password" class="form-control" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary mt-3">Login</button>
-                    </form>
+                <div class="card">
+                    <div class="card-body">
+                        <form action="/login" method="post">
+                            <div class="form-group">
+                                <label for="username">Username:</label>
+                                <input type="text" id="username" name="username" class="form-control" required>
+                            </div>
+                            <div class="form-group mt-3">
+                                <label for="password">Password:</label>
+                                <input type="password" id="password" name="password" class="form-control" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary mt-3">Login</button>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
-    </main>
+        </main>
 
-    {{>footer}}
-</body>
-</html>
+        {{>footer}}
+    </body>
+    </html>
