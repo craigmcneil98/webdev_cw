@@ -18,3 +18,14 @@ main {
     flex: 1;
     padding-bottom: 3rem; /* Optional: For additional spacing */
 }
+
+h2 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}

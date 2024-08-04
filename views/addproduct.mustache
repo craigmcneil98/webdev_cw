@@ -20,21 +20,23 @@
         <div class="card">
             <div class="card-body">
                 <form action="/products/add/submit" method="post">
-                    <div class="mb-3">
-                        <label for="productName" class="form-label">Product Name</label>
-                        <input type="text" id="productName" name="name" class="form-control" placeholder="Enter product name" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="productPrice" class="form-label">Price (£)</label>
-                        <input type="number" id="productPrice" name="price" class="form-control" placeholder="Enter price" step="0.01" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="productDescription" class="form-label">Description</label>
-                        <textarea id="productDescription" name="description" class="form-control" rows="3" placeholder="Enter product description" required></textarea>
-                    </div>
-                    <div class="mb-3">
-                        <label for="productLocation" class="form-label">Location</label>
-                        <input type="text" id="productLocation" name="location" class="form-control readonly-input" value="{{currentUser.location}}" readonly>
+                    <div class="form-group">
+                        <div class="mb-3">
+                            <label for="productName" class="form-label">Product Name:</label>
+                            <input type="text" id="productName" name="name" class="form-control" placeholder="Enter product name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="productPrice" class="form-label">Price (£):</label>
+                            <input type="number" id="productPrice" name="price" class="form-control" placeholder="Enter price" step="0.01" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="productDescription" class="form-label">Description:</label>
+                            <textarea id="productDescription" name="description" class="form-control" rows="3" placeholder="Enter product description" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="productLocation" class="form-label">Location:</label>
+                            <input type="text" id="productLocation" name="location" class="form-control readonly-input" value="{{currentUser.location}}" readonly>
+                        </div>
                     </div>
                     <button type="submit" class="btn btn-primary">Add Product</button>
                 </form>
