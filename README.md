@@ -56,4 +56,4 @@ For testing purposes, the following accounts have been created. You can use thes
 
 ## Contact
 
-For any inquiries or issues, please contact me at [cmcnei301@caledonian.ac.uk].
+For any inquiries or issues, please contact me at cmcnei301@caledonian.ac.uk.
