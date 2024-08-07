@@ -1,10 +1,10 @@
-const nedb = require("nedb");
+const Datastore = require("nedb");
 
 class ProductDAO {
   constructor(dbFilePath) {
     this.db = dbFilePath 
-      ? new nedb({ filename: dbFilePath.filename, autoload: true }) 
-      : new nedb();
+      ? new Datastore({ filename: dbFilePath.filename, autoload: true }) 
+      : new Datastore();
   }
 
   async init() {
