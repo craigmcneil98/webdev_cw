@@ -8,7 +8,7 @@ router.get("/", userController.getUserData, controller.landing_page);
 router.get("/login", controller.login_page);
 router.get("/products", userController.getUserData, controller.products_page);
 router.get("/admin", userController.verifyAdmin, controller.admin_page);
-router.get("/details/:id", userController.verify, controller.details_page);
+router.get("/products/details/:id", userController.verify, controller.details_page);
 router.get("/products/add", userController.verify, controller.add_product_page)
 router.get("/access-denied", userController.getUserData, controller.access_denied)
 
