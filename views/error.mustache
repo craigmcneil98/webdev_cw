@@ -1,0 +1,29 @@
+<html>
+<head>
+    {{>header}}
+    <style>
+        .alert-message {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header class="bg-dark text-white text-center py-3">
+        <h1>Hospice Charity Shops</h1>
+        {{>nav}}
+    </header>
+
+    <main class="container mt-5">
+        <div class="alert-message">
+            <h2>Error</h2>
+            <p>{{error}}</p>
+            <a href="/" class="btn btn-primary">Return to Home</a>
+        </div>
+    </main>
+
+    {{>footer}}
+</body>
+</html>
