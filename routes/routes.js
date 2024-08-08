@@ -25,4 +25,13 @@ router.post("/products/add/submit", userController.verify, controller.add_produc
 router.get('/products/delete/:id', userController.verify, controller.delete_product);
 router.post('/products/update/:id', userController.verify, controller.update_product);
 
+//Error Catching
+router.use((req, res) => {
+    res.status(404).render('error', { error: 'Sorry, that page does not exist.' });
+});
+
+router.use((err, req, res, next) => {
+    res.status(500).render('error', { error: 'Sorry, something went wrong on our end.' });
+});
+
 module.exports = router;
